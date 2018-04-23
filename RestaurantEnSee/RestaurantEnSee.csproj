@@ -5,7 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\" />
+    <Folder Include="Areas\Account\" />
+    <Folder Include="Areas\Order\" />
   </ItemGroup>
 
   <ItemGroup>

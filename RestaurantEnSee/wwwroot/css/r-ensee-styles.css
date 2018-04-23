@@ -1,0 +1,51 @@
+﻿
+body {
+    font-family: 'Segoe MDL2 Assets', sans-serif;
+    margin-right:0px;
+}
+
+nav {
+    font-family: "Segoe Script", 'Segoe UI', 'DejaVu Sans', sans-serif;
+}
+
+nav div ul {
+    font-size: 1.3rem;
+}
+
+.menu-landing-header {
+    /*background pic goes here*/
+    color: #2e2e2e;
+    margin-top: -19px;
+    padding-top: 13rem;
+    padding-bottom: 13rem;
+}
+
+.display-5 {
+    font-size: 2.9rem;
+    color: #15414b;
+}
+
+.bg-light-gray {
+    background-color: #d0d0d0;
+}
+
+
+.bg-very-dark {
+    background-color: #232323;
+}
+
+
+footer ul {
+    margin-bottom: 5em;
+}
+
+
+footer a {
+    font-weight: 300;
+    color: #979797;
+}
+
+footer a:hover {
+    text-decoration: none;
+    color: #FFF;
+}
