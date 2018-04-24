@@ -7,6 +7,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using RestaurantEnSee.Areas.Home.Models;
 
 namespace RestaurantEnSee
 {
@@ -14,12 +15,18 @@ namespace RestaurantEnSee
     {
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
+            var host = BuildWebHost(args);
+
+            IHostingEnvironment env = (IHostingEnvironment)host.Services.GetService(typeof(IHostingEnvironment));
+            SeedData.EnsureDevelopmentDbPopulated(host.Services, env);
+
+            host.Run();
         }
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
+                .UseDefaultServiceProvider(opts => opts.ValidateScopes = false)
                 .Build();
     }
 }

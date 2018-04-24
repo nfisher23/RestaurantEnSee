@@ -9,6 +9,6 @@ namespace RestaurantEnSee.Areas.Home.Models
     {
         public int FoodCategoryId { get; set; }
         public string Title { get; set; }
-        public IEnumerable<MenuItem> FoodItems { get; set; }
+        public List<MenuItem> FoodItems { get; set; }
     }
 }

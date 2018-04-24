@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace RestaurantEnSee.Areas.Home.Models
 {
-    public class Menu
+    public interface IMenuRepository
     {
-        public int MenuId { get; set; }
-        public List<FoodCategory> Categories { get; set; }
+        IQueryable<Menu> Menus { get; }
+        Menu GetFullMenu(int id);
     }
 }
