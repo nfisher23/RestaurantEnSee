@@ -19,13 +19,18 @@ namespace RestaurantEnSee.Areas.Home.Models
             }
         }
 
-        public Menu GetFullMenu(int id)
+        public Menu GetFullMenuByName(string name)
         {
-            return ApplicationContext.Menus.Where(m => m.MenuId == id)
+            return ApplicationContext.Menus.Where(m => m.MenuName == name)
                 .Include(m => m.Categories)
                 .ThenInclude(c => c.FoodItems)
                 .ThenInclude(f => f.Picture)
                 .FirstOrDefault();
+        }
+
+        public Photo GetPhotoByName(string fullName)
+        {
+            return ApplicationContext.Photos.Where(p => p.FullTitle == fullName).FirstOrDefault();
         }
     }
 }

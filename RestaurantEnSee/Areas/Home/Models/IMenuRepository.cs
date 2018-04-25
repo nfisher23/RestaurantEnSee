@@ -8,6 +8,7 @@ namespace RestaurantEnSee.Areas.Home.Models
     public interface IMenuRepository
     {
         IQueryable<Menu> Menus { get; }
-        Menu GetFullMenu(int id);
+        Menu GetFullMenuByName(string name);
+        Photo GetPhotoByName(string fullName);
     }
 }

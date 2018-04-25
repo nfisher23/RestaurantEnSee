@@ -1,0 +1,24 @@
+﻿@model FoodCategory
+
+
+<div class="text-center border-bottom p-3 card-header bg-light">
+    <h2 class="display-5">@Model.Title</h2>
+</div>
+<div class="row mx-0">
+    @for (int i = 0; i <= Model.FoodItems.Count - 1; i++)
+    {
+        <div class="col-md-6 col-lg-4 px-4 my-4">
+            <div class="card">
+                <h3 class="card-header text-center">
+                    @Model.FoodItems[i].Title
+                </h3>
+                <div class="card-body">
+                    <db-image image="@Model.FoodItems[i].Picture"/>
+                    <p class="card-text">
+                        @Model.FoodItems[i].Description
+                    </p>
+                </div>
+            </div>
+        </div>
+    }
+</div>

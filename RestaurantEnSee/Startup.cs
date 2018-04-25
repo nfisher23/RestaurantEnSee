@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using RestaurantEnSee.Areas.Home.Middleware;
 using RestaurantEnSee.Areas.Home.Models;
 
 namespace RestaurantEnSee
@@ -40,6 +42,7 @@ namespace RestaurantEnSee
                 app.UseStatusCodePages();
             }
 
+            app.UseMiddleware<ResolveImageMiddleware>();
             app.UseStaticFiles();
             app.UseMvc(routes =>
             {

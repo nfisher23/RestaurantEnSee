@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using RestaurantEnSee.Areas.Home.Models;
+using System.IO;
 
 namespace RestaurantEnSee.Areas.Home.Models
 {
@@ -20,7 +21,6 @@ namespace RestaurantEnSee.Areas.Home.Models
                     context.Database.EnsureCreated();
 
                     context.Menus.Add(CreateDevelopmentMenu());
-                    context.Categories.AddRange(GenerateDevelopmentCategories());
 
                     context.SaveChanges();
                 }
@@ -32,9 +32,9 @@ namespace RestaurantEnSee.Areas.Home.Models
         {
             Menu m = new Menu
             {
-                Categories = GenerateDevelopmentCategories()
+                Categories = GenerateDevelopmentCategories(),
+                MenuName = "Default Menu"
             };
-
 
             return m;
         }
@@ -72,7 +72,7 @@ namespace RestaurantEnSee.Areas.Home.Models
                     cats[i].FoodItems.Add(
                         new MenuItem
                         {
-                            Title = $"{cats[i].Title.Substring(0, cats[i].Title.Length - 2)} #{j}",
+                            Title = $"{cats[i].Title.Substring(0, cats[i].Title.Length - 1)} #{j}",
                             Description = $"The best {cats[i].Title} no {j} around",
                             Picture = GetDevelopmentPhoto()
                         });
@@ -85,19 +85,22 @@ namespace RestaurantEnSee.Areas.Home.Models
 
         private static Photo GetDevelopmentPhoto()
         {
+            string name = "food-outline";
+            string ext = ".jpg";
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "seed", name + ext);
             Photo p = new Photo
             {
-                Title = "Base Photo",
-                Extension = ".jpg",
-                Content = GetDevelopmentPhotoContent()
+                FullTitle = name + ext,
+                Content = GetDevelopmentPhotoContent(path)
             };
 
             return p;
         }
 
-        private static byte[] GetDevelopmentPhotoContent()
+        private static byte[] GetDevelopmentPhotoContent(string path)
         {
-            return new byte[1]; // stub
+            var bytes = System.IO.File.ReadAllBytes(path);
+            return bytes; // stub
         }
     }
 }
