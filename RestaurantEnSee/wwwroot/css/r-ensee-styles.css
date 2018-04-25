@@ -13,7 +13,8 @@ nav div ul {
 }
 
 .menu-landing-header {
-    /*background pic goes here*/
+    background-image: url("/dbimgs/food-outline.jpg");
+    background-size: cover;
     color: #2e2e2e;
     margin-top: -19px;
     padding-top: 13rem;

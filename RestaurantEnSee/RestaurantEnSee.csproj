@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <Folder Include="Areas\Account\" />
-    <Folder Include="Areas\Order\" />
   </ItemGroup>
 
   <ItemGroup>
