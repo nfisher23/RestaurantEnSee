@@ -2,27 +2,57 @@
 
 @{ }
 <div class="container">
-    
+    <div class="display-5 my-2 mb-4">Your Order</div>
     <div class="row">
         <div class="col-sm-6">
             <div class="list-group">
-                @foreach (var item in Model.Cart.CartItems)
-        {
-            <div class="list-group-item">
-                <div class="card">
-                    <div class="card-header">@item.MenuItem.Title </div>
-
-                    <div class="card-body">
-
-                        <p class="card-text">
-                            Quantity: @item.Quantity
-                        </p>
+                @if (Model.Cart.CartItems.Count > 0)
+                {
+                    @foreach (var item in Model.Cart.CartItems)
+                    {
+                        <div class="list-group-item">
+                            <div class="card">
+                                <div class="card-header">@item.MenuItem.Title </div>
+                                <div class="card-body">
+                                    <p class="card-text">
+                                        Quantity: @item.Quantity, Price: @item.MenuItem.PriceBeforeTax
+                                    </p>
+                                </div>
+                            </div>
+                            <form class="form-group" asp-action="RemoveFromOrder"
+                                  asp-area="Order" asp-controller="Order">
+                                <input type="hidden" name="menuItemId" value="@item.MenuItem.MenuItemId" />
+                                <input type="submit" value="Remove this Order" class="btn btn-danger" />
+                            </form>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="list-group-item">
+                        <div class="card">
+                            <div class="card-header">
+                                <p>Your order is currently empty. Please
+                                return to the 
+                                    <a asp-action="Menu" asp-controller="Home" 
+                                       asp-area="Home" class="card-link">
+                                        Menu
+                                    </a>
+                                to start a new order.</p>
+                            </div>
+                        </div>
                     </div>
-                </div>
-
+                }
             </div>
-
-}
+        </div>
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Totals</h2>
+                </div>
+                <div class="card-body">
+                    Total before Tax: @String.Format("{0:0.00}", Model.TotalBeforeCoupons)
+                </div>
             </div>
         </div>
     </div>

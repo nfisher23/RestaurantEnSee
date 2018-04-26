@@ -9,5 +9,10 @@ namespace RestaurantEnSee.Areas.Order.Models.ViewModels
     {
         public string ReturnUrl { get; set; }
         public ShoppingCart Cart { get; set; }
+        public decimal TotalBeforeCoupons { get
+            {
+                return Cart.CartItems.Sum(i => i.Quantity * i.MenuItem.PriceBeforeTax);
+            }
+        }
     }
 }

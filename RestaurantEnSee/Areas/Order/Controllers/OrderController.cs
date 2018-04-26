@@ -24,7 +24,7 @@ namespace RestaurantEnSee.Areas.Order.Controllers
         {
             var model = new OrderSummaryViewModel
             {
-                Cart = HttpContext.Session.GetJson<ShoppingCart>(DefaultCartKey),
+                Cart = HttpContext.Session.GetJson<ShoppingCart>(DefaultCartKey) ?? new ShoppingCart(),
                 ReturnUrl = returnUrl
             };
             return View(model);

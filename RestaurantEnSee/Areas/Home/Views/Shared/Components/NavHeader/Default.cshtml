@@ -1,0 +1,33 @@
+﻿@model NavHeaderViewComponentModel
+
+<nav class="navbar navbar-expand-md navbar-dark bg-light-gray py-2 sticky-top mb-3 mr-0">
+    <div class="container">
+        <a class="navbar-brand p-3 mx-0 px-0" href="#">
+            <span class="h3 text-dark">R-EnSee</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse"
+                data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div id="navbarNavDropdown" class="navbar-collapse collapse justify-content-end pt-3 pb-1 h5">
+            <ul class="navbar-nav justify-content-end mr-5 pr-lg-4 pr-xl-2">
+                <li class="nav-item dropdown px-3">
+                    <a class="text-dark" asp-area="Home" 
+                       asp-controller="Home" asp-action="Menu">Menu</a>
+                </li>
+                <li class="nav-item px-3">
+                    <a href="#" class="text-dark">Locations</a>
+                </li>
+                <li class="nav-item px-3">
+                    <a href="#" class="text-dark">About</a>
+                </li>
+                <li class="nav-item px-3">
+                    <a href="#" class="text-dark lead">
+                        <img src="/lib/icons/cart.svg" width="20" height="20" />(1)
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
