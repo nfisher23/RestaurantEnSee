@@ -90,9 +90,46 @@ namespace RestaurantEnSee.UnitTests.AreasTests.OrderTests.ModelsTests
             int countBeforeRemove = c.CartItems.Count;
             Assert.IsNotNull(cartItem);
 
-            c.RemoveItem(cartItem);
+            c.RemoveItem(m);
 
             Assert.IsTrue(countBeforeRemove > c.CartItems.Count);
+        }
+
+        [Test]
+        public void RemoveItem_DoesntRemoveOthers()
+        {
+            ShoppingCart c = new ShoppingCart();
+            MenuItem m1 = new MenuItem
+            {
+                Description = "Some item1",
+                MenuItemId = 1,
+                Title = "Some Title1"
+            };
+            MenuItem m2 = new MenuItem
+            {
+                Description = "Some item2",
+                MenuItemId = 2,
+                Title = "Some Title2"
+            };
+            MenuItem m3 = new MenuItem
+            {
+                Description = "Some item3",
+                MenuItemId = 3,
+                Title = "Some Title3"
+            };
+
+            c.AddItem(m3, 3);
+            c.AddItem(m2, 2);
+            c.AddItem(m1, 1);
+
+            var cartItem = c.CartItems[0];
+            Assert.IsNotNull(cartItem);
+
+            c.RemoveItem(m1);
+
+            Assert.IsTrue(c.CartItems.Count == 2);
+            Assert.IsTrue(c.CartItems[0].MenuItem == m3);
+            Assert.IsTrue(c.CartItems[1].MenuItem == m2);
         }
 
     }

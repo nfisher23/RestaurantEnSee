@@ -1,0 +1,29 @@
+﻿@model OrderSummaryViewModel
+
+@{ }
+<div class="container">
+    
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="list-group">
+                @foreach (var item in Model.Cart.CartItems)
+        {
+            <div class="list-group-item">
+                <div class="card">
+                    <div class="card-header">@item.MenuItem.Title </div>
+
+                    <div class="card-body">
+
+                        <p class="card-text">
+                            Quantity: @item.Quantity
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+}
+            </div>
+        </div>
+    </div>
+</div>

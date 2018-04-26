@@ -11,7 +11,7 @@ namespace RestaurantEnSee.UnitTests.AreasTests.HomeTests.ModelsTests.seed
     {
         public static string DefaultMenuName = "TestSeedDataMenu";
         public static List<string> photoNames = new List<string>();
-        public static byte[] defPhotoBytes;
+        public static Photo defaultSeedPhoto = new Photo();
         public static Menu CreateDevelopmentMenu()
         {
             Menu m = new Menu
@@ -69,6 +69,14 @@ namespace RestaurantEnSee.UnitTests.AreasTests.HomeTests.ModelsTests.seed
 
         public static Photo GetDevelopmentPhoto()
         {
+            if (defaultSeedPhoto != null &&
+                defaultSeedPhoto.Content != null &&
+                defaultSeedPhoto.Content.Length > 10)
+            {
+                return defaultSeedPhoto;
+            }
+
+
             string name = "food-outline";
             string ext = ".jpg";
             var path = Path.Combine(@"C:\Users\Nick\Documents\Visual Studio 2017\Projects\Web Applications\RestaurantEnSee\RestaurantEnSee.UnitTests\AreasTests\HomeTests\ModelsTests\seed\", name + ext);
@@ -81,13 +89,14 @@ namespace RestaurantEnSee.UnitTests.AreasTests.HomeTests.ModelsTests.seed
             if (!photoNames.Contains(p.FullTitle))
                 photoNames.Add(p.FullTitle);
 
-            return p;
+            defaultSeedPhoto = p;
+            return defaultSeedPhoto;
         }
 
         public static byte[] GetDevelopmentPhotoContent(string path)
         {
-            defPhotoBytes = System.IO.File.ReadAllBytes(path);
-            return defPhotoBytes; 
+            var developmentPhoto = System.IO.File.ReadAllBytes(path);
+            return developmentPhoto;
         }
     }
 }

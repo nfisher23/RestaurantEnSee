@@ -13,5 +13,6 @@ namespace RestaurantEnSee.Areas.Home.Models
 
         public DbSet<Menu> Menus { get; set; }
         public DbSet<Photo> Photos { get; set; }
+        public DbSet<MenuItem> MenuItems { get; set; }
     }
 }

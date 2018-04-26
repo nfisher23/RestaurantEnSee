@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace RestaurantEnSee.Areas.Order.Views.Order
 {
-    public class CartSummaryModel : PageModel
+    public class OrderSummaryModel : PageModel
     {
         public void OnGet()
         {

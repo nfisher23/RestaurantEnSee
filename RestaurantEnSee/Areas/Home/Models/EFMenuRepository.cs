@@ -19,6 +19,8 @@ namespace RestaurantEnSee.Areas.Home.Models
             }
         }
 
+        public IQueryable<MenuItem> MenuItems => ApplicationContext.MenuItems;
+
         public Menu GetFullMenuByName(string name)
         {
             return ApplicationContext.Menus.Where(m => m.MenuName == name)
@@ -26,6 +28,12 @@ namespace RestaurantEnSee.Areas.Home.Models
                 .ThenInclude(c => c.FoodItems)
                 .ThenInclude(f => f.Picture)
                 .FirstOrDefault();
+        }
+
+        public MenuItem GetMenuItemById(int id)
+        {
+            return ApplicationContext.MenuItems.Where(m => m.MenuItemId == id)
+                .Include(m => m.Picture).FirstOrDefault();
         }
 
         public Photo GetPhotoByName(string fullName)

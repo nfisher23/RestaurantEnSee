@@ -25,6 +25,12 @@ namespace RestaurantEnSee
             services.AddTransient<IMenuRepository, EFMenuRepository>();
 
             services.AddMvc();
+
+            // in memory--means that multiple servers will not work for this implementation.
+            // if you want to scale this to multiple servers, this will need to be changed.
+            // see https://docs.microsoft.com/en-us/aspnet/core/fundamentals/app-state?view=aspnetcore-2.1&tabs=aspnetcore2x
+            services.AddDistributedMemoryCache(); 
+            services.AddSession();
         }
 
         public void ConfigureProductionServices(IServiceCollection services)
@@ -44,6 +50,7 @@ namespace RestaurantEnSee
 
             app.UseMiddleware<ResolveImageMiddleware>();
             app.UseStaticFiles();
+            app.UseSession();
             app.UseMvc(routes =>
             {
 

@@ -74,7 +74,8 @@ namespace RestaurantEnSee.Areas.Home.Models
                         {
                             Title = $"{cats[i].Title.Substring(0, cats[i].Title.Length - 1)} #{j}",
                             Description = $"The best {cats[i].Title} no {j} around",
-                            Picture = GetDevelopmentPhoto()
+                            Picture = GetDevelopmentPhoto(),
+                            PriceBeforeTax = (decimal)(10.95 + i)
                         });
                 }
             }

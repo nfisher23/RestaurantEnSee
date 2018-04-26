@@ -11,5 +11,6 @@ namespace RestaurantEnSee.Areas.Home.Models
         public string Title { get; set; }
         public string Description { get; set; }
         public Photo Picture { get; set; }
+        public decimal PriceBeforeTax { get; set; }
     }
 }

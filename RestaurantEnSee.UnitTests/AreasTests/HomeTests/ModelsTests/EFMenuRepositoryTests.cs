@@ -7,6 +7,7 @@ using NSubstitute;
 using Microsoft.EntityFrameworkCore;
 using System.IO;
 using RestaurantEnSee.UnitTests.AreasTests.HomeTests.ModelsTests.seed;
+using System.Linq;
 
 namespace RestaurantEnSee.UnitTests.AreasTests.HomeTests.ModelsTests
 {
@@ -84,7 +85,7 @@ namespace RestaurantEnSee.UnitTests.AreasTests.HomeTests.ModelsTests
 
             Assert.IsNotNull(photo);
             Assert.AreEqual(photo.FullTitle, UnitTestSeedData.photoNames[0]);
-            Assert.AreEqual(photo.Content, UnitTestSeedData.defPhotoBytes);
+            Assert.AreEqual(photo.Content, UnitTestSeedData.defaultSeedPhoto.Content);
         }
 
         [Test]
@@ -95,6 +96,57 @@ namespace RestaurantEnSee.UnitTests.AreasTests.HomeTests.ModelsTests
             var photo = repo.GetPhotoByName("FakePhotoName.jpg");
 
             Assert.IsNull(photo);
+        }
+
+        [Test]
+        public void GetMenuItemById_ItemExists_ReturnsCorrect()
+        {
+            var repo = BasicEFMenuRepoFactory();
+
+            var menu = repo.GetFullMenuByName(repo.Menus.FirstOrDefault().MenuName);
+            List<MenuItem> itemsToGet = new List<MenuItem>();
+
+            foreach (var cat in menu.Categories)
+            {
+                foreach (var item in cat.FoodItems)
+                {
+                    itemsToGet.Add(item);
+                }
+            }
+
+            Assert.IsTrue(itemsToGet.Count > 4);
+            foreach (var menuItem in itemsToGet)
+            {
+                var repoMenuItem = repo.GetMenuItemById(menuItem.MenuItemId);
+
+
+                Assert.IsNotNull(repoMenuItem);
+                Assert.AreEqual(menuItem, repoMenuItem);
+            }
+        }
+
+        [Test]
+        public void GetMenuItemById_ItemDNE_ReturnsNull()
+        {
+            var repo = BasicEFMenuRepoFactory();
+
+            var nonExistent1 = repo.GetMenuItemById(0);
+            var nonExistent2 = repo.GetMenuItemById(-10);
+
+            Assert.IsNull(nonExistent1);
+            Assert.IsNull(nonExistent2);
+        }
+
+        [Test]
+        public void GetMenuItemById_IncludesPhoto()
+        {
+            var repo = BasicEFMenuRepoFactory();
+            var menuItemIdToGet = repo.MenuItems.FirstOrDefault().MenuItemId;
+
+            var menuItemWithPic = repo.GetMenuItemById(menuItemIdToGet);
+
+            Assert.IsNotNull(menuItemWithPic.Picture);
+            Assert.IsTrue(menuItemWithPic.Picture.Content.Length > 100);
         }
 
 

@@ -31,9 +31,9 @@ namespace RestaurantEnSee.Areas.Order.Models
             }
         }
 
-        public void RemoveItem(CartItem item)
+        public void RemoveItem(MenuItem item)
         {
-            cartItems.Remove(item);
+            cartItems.RemoveAll(i => i.MenuItem.MenuItemId == item.MenuItemId);
         }
     }
 }
