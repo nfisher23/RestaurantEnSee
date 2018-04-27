@@ -12,7 +12,17 @@ namespace RestaurantEnSee.Areas.Order.Models
 
         public static readonly string DefaultCartKey = "VisitorCart";
 
+        public decimal TotalBeforeCoupons
+        {
+            get
+            {
+                return this.CartItems.Sum(i => i.Quantity * i.MenuItem.PriceBeforeTax);
+            }
+        }
+
         private List<CartItem> cartItems = new List<CartItem>();
+
+
 
         public virtual void AddItem(MenuItem itemToAdd, int quantity)
         {

@@ -51,9 +51,11 @@
                     <h2>Totals</h2>
                 </div>
                 <div class="card-body">
-                    Total before Tax: @String.Format("{0:0.00}", Model.TotalBeforeCoupons)
+                    Total before Tax: @String.Format("{0:0.00}", Model.Cart.TotalBeforeCoupons)
                 </div>
             </div>
+            <a asp-controller="Order" asp-area="Order" 
+               asp-action="Checkout" class="btn btn-outline-primary m-2">Checkout</a>
         </div>
     </div>
 </div>

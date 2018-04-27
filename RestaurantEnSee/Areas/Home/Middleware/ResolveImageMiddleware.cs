@@ -21,7 +21,7 @@ namespace RestaurantEnSee.Areas.Home.Middleware
             var path = httpContext.Request.Path;
             if (path.HasValue && path.Value.StartsWith("/dbimgs/"))
             {
-                httpContext.Request.Path = "/Home/GetImageFromDatabase";
+                httpContext.Request.Path = "/GetImageFromDatabase";
                 httpContext.Request.QueryString =
                     new QueryString("?fullImgTitle=" + path.Value.Replace("/dbimgs/", ""));
             }

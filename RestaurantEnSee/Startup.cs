@@ -56,14 +56,13 @@ namespace RestaurantEnSee
             app.UseSession();
             app.UseMvc(routes =>
             {
-
                 routes.MapRoute(name: "",
                     template: "Order/{action=CartSummary}",
                     defaults: new { area = "Order", controller = "Order" });
 
                 routes.MapRoute(name: "",
-                    template: "{area=Home}/{action=Menu}",
-                    defaults: new { controller = "Home" });
+                    template: "{action=Menu}",
+                    defaults: new { area = "Home", controller = "Home" });
             });
 
         }

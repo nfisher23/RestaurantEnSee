@@ -1,0 +1,12 @@
+﻿@model CheckoutViewModel
+
+<div class="container">
+    @foreach (var item in Model.Cart.CartItems)
+    {
+        <div>@item.MenuItem.Title | @item.MenuItem.PriceBeforeTax | @item.Quantity</div>
+
+
+    }
+    <div>Total:</div>
+    <div>@Model.Cart.TotalBeforeCoupons</div>
+</div>

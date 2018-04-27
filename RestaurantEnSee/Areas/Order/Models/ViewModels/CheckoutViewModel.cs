@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 
 namespace RestaurantEnSee.Areas.Order.Models.ViewModels
 {
-    public class OrderSummaryViewModel
+    public class CheckoutViewModel
     {
-        public string ReturnUrl { get; set; }
         public ShoppingCart Cart { get; set; }
     }
 }

@@ -27,7 +27,6 @@ namespace RestaurantEnSee.Areas.Home.Controllers
 
 
 
-
         /// <summary>
         /// Gets image from the database
         /// </summary>

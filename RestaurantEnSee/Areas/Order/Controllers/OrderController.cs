@@ -31,6 +31,15 @@ namespace RestaurantEnSee.Areas.Order.Controllers
             return View(model);
         }
 
+        public ViewResult Checkout()
+        {
+            var model = new CheckoutViewModel
+            {
+                Cart = cart
+            };
+            return View(model);
+        }
+
         [HttpPost]
         public IActionResult AddToOrder(int menuItemId, string returnUrl)
         {
