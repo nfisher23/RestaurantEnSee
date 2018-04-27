@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RestaurantEnSee.Areas.Home.Middleware;
 using RestaurantEnSee.Areas.Home.Models;
+using RestaurantEnSee.Areas.Order.Models;
 
 namespace RestaurantEnSee
 {
@@ -23,6 +24,8 @@ namespace RestaurantEnSee
             services.AddDbContext<AppDbContext>(opts => opts.UseInMemoryDatabase("Data Source=developmentDatabase.sqlite"));
 
             services.AddTransient<IMenuRepository, EFMenuRepository>();
+            services.AddScoped(provider => SessionShoppingCart.GetCart(provider));
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddMvc();
 

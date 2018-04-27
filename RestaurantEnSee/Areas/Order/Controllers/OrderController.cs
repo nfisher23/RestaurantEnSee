@@ -14,17 +14,18 @@ namespace RestaurantEnSee.Areas.Order.Controllers
     public class OrderController : Controller
     {
         private IMenuRepository menuRepository;
-        private const string DefaultCartKey = "VisitorCart";
-        public OrderController(IMenuRepository repo)
+        private ShoppingCart cart;
+        public OrderController(IMenuRepository repo, ShoppingCart cartService)
         {
             menuRepository = repo;
+            cart = cartService;
         }
 
         public ViewResult OrderSummary(string returnUrl = "/")
         {
             var model = new OrderSummaryViewModel
             {
-                Cart = HttpContext.Session.GetJson<ShoppingCart>(DefaultCartKey) ?? new ShoppingCart(),
+                Cart = cart,
                 ReturnUrl = returnUrl
             };
             return View(model);
@@ -36,9 +37,7 @@ namespace RestaurantEnSee.Areas.Order.Controllers
             var menuItem = menuRepository.GetMenuItemById(menuItemId);
             if (menuItem != null)
             {
-                ShoppingCart cart = GetCart();
                 cart.AddItem(menuItem, 1);
-                SaveCart(cart);
             }
 
             return RedirectToAction(nameof(OrderSummary), new { returnUrl });
@@ -50,23 +49,10 @@ namespace RestaurantEnSee.Areas.Order.Controllers
             var menuItem = menuRepository.GetMenuItemById(menuItemId);
             if (menuItem != null)
             {
-                ShoppingCart cart = GetCart();
                 cart.RemoveItem(menuItem);
-                SaveCart(cart);
             }
 
             return RedirectToAction(nameof(OrderSummary), new { returnUrl });
-        }
-
-        private ShoppingCart GetCart()
-        {
-            ShoppingCart c = HttpContext.Session.GetJson<ShoppingCart>(DefaultCartKey);
-            return c ?? new ShoppingCart();
-        }
-
-        private void SaveCart(ShoppingCart cart)
-        {
-            HttpContext.Session.SetJson(DefaultCartKey, cart);
         }
     }
 }

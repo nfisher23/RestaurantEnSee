@@ -10,7 +10,7 @@
                 {
                     @foreach (var item in Model.Cart.CartItems)
                     {
-                        <div class="list-group-item">
+                        <div class="list-group-item my-3">
                             <div class="card">
                                 <div class="card-header">@item.MenuItem.Title </div>
                                 <div class="card-body">
@@ -19,10 +19,10 @@
                                     </p>
                                 </div>
                             </div>
-                            <form class="form-group" asp-action="RemoveFromOrder"
+                            <form class="form-group pt-4" asp-action="RemoveFromOrder"
                                   asp-area="Order" asp-controller="Order">
                                 <input type="hidden" name="menuItemId" value="@item.MenuItem.MenuItemId" />
-                                <input type="submit" value="Remove this Order" class="btn btn-danger" />
+                                <input type="submit" value="Remove from Order" class="btn btn-danger" />
                             </form>
                         </div>
                     }

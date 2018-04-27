@@ -13,7 +13,7 @@
         <div id="navbarNavDropdown" class="navbar-collapse collapse justify-content-end pt-3 pb-1 h5">
             <ul class="navbar-nav justify-content-end mr-5 pr-lg-4 pr-xl-2">
                 <li class="nav-item dropdown px-3">
-                    <a class="text-dark" asp-area="Home" 
+                    <a class="text-dark" asp-area="Home"
                        asp-controller="Home" asp-action="Menu">Menu</a>
                 </li>
                 <li class="nav-item px-3">
@@ -23,8 +23,9 @@
                     <a href="#" class="text-dark">About</a>
                 </li>
                 <li class="nav-item px-3">
-                    <a href="#" class="text-dark lead">
-                        <img src="/lib/icons/cart.svg" width="20" height="20" />(1)
+                    <a asp-controller="Order" asp-action="OrderSummary" asp-area="Order"
+                       class="text-dark lead">
+                        <img src="/lib/icons/cart.svg" width="20" height="20" />(@Model.Cart.CartItems.Count.ToString())
                     </a>
                 </li>
             </ul>
