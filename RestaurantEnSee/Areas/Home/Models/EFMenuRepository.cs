@@ -40,5 +40,15 @@ namespace RestaurantEnSee.Areas.Home.Models
         {
             return ApplicationContext.Photos.Where(p => p.FullTitle == fullName).FirstOrDefault();
         }
+
+        public void SetActiveMenu(Menu newActiveMenu)
+        {
+            var menu = ApplicationContext.Menus.Where(m => m.IsActiveMenu).FirstOrDefault();
+            menu.IsActiveMenu = false;
+
+            var newMenu = ApplicationContext.Menus.Where(m => m.MenuName == newActiveMenu.MenuName).FirstOrDefault();
+            newMenu.IsActiveMenu = true;
+            ApplicationContext.SaveChanges();
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using RestaurantEnSee.Areas.Admin.Models;
 using RestaurantEnSee.Areas.Home.Models;
 using System;
@@ -36,7 +37,17 @@ namespace RestaurantEnSee.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult ManageAllMenus(ManageAllMenusViewModel model)
         {
-            throw new NotImplementedException();
+            IFormCollection form = this.Request.Form;
+            FillInSelectedMenu(model, form);
+            if (ModelState.IsValid)
+            {
+                var newActive = model.AllMenus.Where(m => m.IsActiveMenu).FirstOrDefault();
+                menuRepository.SetActiveMenu(newActive);
+                TempData["message"] = "Your Menu Configuration was successfully updated";
+                return RedirectToAction(nameof(ManageAllMenus));
+            }
+            else
+                return View(model);
         }
         
         public IActionResult ManageSingleMenu(object fillWithModelSoon)
@@ -44,5 +55,18 @@ namespace RestaurantEnSee.Areas.Admin.Controllers
             throw new NotImplementedException();
         }
 
+        private void FillInSelectedMenu(ManageAllMenusViewModel model, 
+            IFormCollection form)
+        {
+            for (int i = 0; i < model.AllMenus.Count; i++)
+            {
+                var menu = model.AllMenus[i];
+                menu.IsActiveMenu = false;
+                if (menu.MenuName == form["IsActiveMenu"])
+                {
+                    menu.IsActiveMenu = true;
+                }
+            }
+        }
     }
 }

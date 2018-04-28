@@ -16,12 +16,15 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var menu in Model.AllMenus)
-            {
+            @for (int i = 0; i < Model.AllMenus.Count; i++)
+                    {
+                        var menu = Model.AllMenus[i];
                 <tr>
-                    <td>@menu.MenuName</td>
                     <td>
-                        <input name="stub" value="stub" type="checkbox" checked />
+                       <input asp-for="AllMenus[i].MenuName" class="form-control" type="text" readonly="readonly" />
+                    </td>
+                    <td>
+                        <is-active-menu current-menu="menu" />
                     </td>
                     <td>
                         <a asp-action="ManageSingleMenu" asp-area="Admin"
@@ -33,5 +36,13 @@
 
             }
         </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3">
+                    <input type="submit" value="Submit Changes" class="btn btn-lg btn-primary" />
+                </td>
+            </tr>
+        </tfoot>
     </table>
+
 </form>

@@ -26,6 +26,7 @@ namespace RestaurantEnSee.UnitTests.AreasTests.HomeTests.ModelsTests
             SharedDbContext = new AppDbContext(options);
             SharedDbContext.Database.EnsureCreated();
             SharedDbContext.Menus.Add(UnitTestSeedData.CreateDevelopmentMenu());
+            SharedDbContext.Menus.Add(UnitTestSeedData.CreateDevelopmentMenu(2));
             SharedDbContext.SaveChanges();
         }
 
@@ -147,6 +148,32 @@ namespace RestaurantEnSee.UnitTests.AreasTests.HomeTests.ModelsTests
 
             Assert.IsNotNull(menuItemWithPic.Picture);
             Assert.IsTrue(menuItemWithPic.Picture.Content.Length > 100);
+        }
+
+        [Test]
+        public void SetActiveMenu_UpdatesToNew()
+        {
+            var repo = BasicEFMenuRepoFactory();
+
+            var menus = repo.Menus.ToList();
+            Assert.AreEqual(menus.Count, 2); // data check
+
+            Assert.IsTrue(menus[0].IsActiveMenu);
+            repo.SetActiveMenu(menus[1]);
+            Assert.IsTrue(menus[1].IsActiveMenu);
+        }
+
+        [Test]
+        public void SetActiveMenu_DisablesOld()
+        {
+            var repo = BasicEFMenuRepoFactory();
+
+            var menus = repo.Menus.ToList();
+            Assert.AreEqual(menus.Count, 2); // data check
+
+            Assert.IsTrue(menus[0].IsActiveMenu);
+            repo.SetActiveMenu(menus[1]);
+            Assert.IsFalse(menus[0].IsActiveMenu);
         }
 
 

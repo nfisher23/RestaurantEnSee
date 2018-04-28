@@ -12,15 +12,27 @@ namespace RestaurantEnSee.UnitTests.AreasTests.HomeTests.ModelsTests.seed
         public static string DefaultMenuName = "TestSeedDataMenu";
         public static List<string> photoNames = new List<string>();
         public static Photo defaultSeedPhoto = new Photo();
-        public static Menu CreateDevelopmentMenu()
+        public static Menu CreateDevelopmentMenu(int i = 1)
         {
-            Menu m = new Menu
+            if (i == 1)
+            {
+                Menu m = new Menu
+                {
+                    Categories = GenerateDevelopmentCategories(),
+                    MenuName = DefaultMenuName,
+                    IsActiveMenu = true
+                 };
+                return m;
+            }
+
+            Menu m2 = new Menu
             {
                 Categories = GenerateDevelopmentCategories(),
-                MenuName = DefaultMenuName
+                MenuName = DefaultMenuName + i.ToString(),
+                IsActiveMenu = false
             };
+            return m2;
 
-            return m;
         }
 
         public static List<FoodCategory> GenerateDevelopmentCategories()
