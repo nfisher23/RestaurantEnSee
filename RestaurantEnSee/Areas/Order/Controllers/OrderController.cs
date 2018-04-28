@@ -63,5 +63,11 @@ namespace RestaurantEnSee.Areas.Order.Controllers
 
             return RedirectToAction(nameof(OrderSummary), new { returnUrl });
         }
+
+        [HttpPost]
+        public IActionResult SendOrder(CheckoutViewModel model)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
