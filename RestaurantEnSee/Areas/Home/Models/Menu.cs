@@ -12,7 +12,7 @@ namespace RestaurantEnSee.Areas.Home.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public string MenuName { get; set; }
-        public string MenuTitle { get; set; }
         public List<FoodCategory> Categories { get; set; }
+        public bool IsActiveMenu { get; set; }
     }
 }

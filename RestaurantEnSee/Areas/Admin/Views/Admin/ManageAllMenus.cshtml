@@ -1,0 +1,37 @@
+﻿@model ManageAllMenusViewModel
+@{ }
+
+<h2>Manage All Menus</h2>
+<hr />
+<br />
+
+<form asp-action="ManageAllMenus" asp-controller="Admin"
+      asp-area="Admin" method="post">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Menu Name</th>
+                <th>Active Menu</th>
+                <th>Edit</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var menu in Model.AllMenus)
+            {
+                <tr>
+                    <td>@menu.MenuName</td>
+                    <td>
+                        <input name="stub" value="stub" type="checkbox" checked />
+                    </td>
+                    <td>
+                        <a asp-action="ManageSingleMenu" asp-area="Admin"
+                           asp-controller="Admin" class="btn btn-success">Manage Menu</a>
+                    </td>
+                </tr>
+
+
+
+            }
+        </tbody>
+    </table>
+</form>

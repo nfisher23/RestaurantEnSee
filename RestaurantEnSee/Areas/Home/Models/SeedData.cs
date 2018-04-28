@@ -21,6 +21,7 @@ namespace RestaurantEnSee.Areas.Home.Models
                     context.Database.EnsureCreated();
 
                     context.Menus.Add(CreateDevelopmentMenu());
+                    context.Menus.Add(CreateDevelopmentMenu(2));
 
                     context.SaveChanges();
                 }
@@ -28,12 +29,13 @@ namespace RestaurantEnSee.Areas.Home.Models
         }
 
 
-        public static Menu CreateDevelopmentMenu()
+        public static Menu CreateDevelopmentMenu(int num = 1)
         {
             Menu m = new Menu
             {
                 Categories = GenerateDevelopmentCategories(),
-                MenuName = "Default Menu"
+                MenuName = $"Default Menu {num}",
+                IsActiveMenu = num == 1 ? true : false
             };
 
             return m;
