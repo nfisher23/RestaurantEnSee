@@ -1,0 +1,92 @@
+﻿
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0">
+    <title>R-EnSee Admin</title>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/admin-styles.css" asp-append-version="true" rel="stylesheet" />
+</head>
+<body>
+    <!--Top nav-->
+    <nav class="navbar navbar-dark sticky-top bg-dark flex-lg-nowrap p-0">
+        <a class="navbar-brand col-md-3 col-lg-2 mr-0" asp-action="Dashboard"
+           asp-controller="Admin">
+            R-EnSee
+            <!--<img src="TBD"
+                 asp-append-version="true" width="190" height="62" />-->
+        </a>
+        <ul class="navbar-nav px-3">
+            <li class="nav-item text-nowrap lead">
+                <a class="nav-link" asp-action="SignOut" asp-controller="Account"
+                   asp-area="NCAccount">Sign out</a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-md-2 d-none d-md-block bg-light sidebar mt-3">
+                <div class="sidebar-sticky mt-5">
+                    <ul class="nav flex-column">
+                        <li class="nav-item mt-0">
+                            <a class="nav-link" asp-action="Dashboard"
+                               asp-controller="Admin" asp-area="Admin">
+                                Home
+                            </a>
+                        </li>
+                    </ul>
+
+                    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-2 text-muted">
+                        <span class="border-bottom pb-1">Standard Account</span>
+                    </h6>
+                    <ul class="nav flex-column mb-2">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">Manage Default Email</a>
+
+                        </li>
+                    </ul>
+                    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-2 text-muted">
+                        <span class="border-bottom pb-1">Menu</span>
+                    </h6>
+                    <ul class="nav flex-column mb-2">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">Manage Menu</a>
+
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">Add Menu Item</a>
+
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">Add Menu Section</a>
+
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">Manage Photos</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <main role="main" class="col-md-9 ml-md-auto col-lg-10 pt-3 px-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+                    <h1 class="h2">R-EnSee Dashboard</h1>
+                </div>
+                @Html.Partial("MessagePartialView")
+
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.slim.min.js"></script>
+    <script src="~/lib/popper.js/dist/popper.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+</body>
+
+</html>
+

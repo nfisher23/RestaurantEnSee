@@ -61,6 +61,10 @@ namespace RestaurantEnSee
                     defaults: new { area = "Order", controller = "Order" });
 
                 routes.MapRoute(name: "",
+                    template: "RESAdmin/{action=Dashboard}",
+                    defaults: new { area = "Admin", controller = "Admin" });
+
+                routes.MapRoute(name: "",
                     template: "{action=Menu}",
                     defaults: new { area = "Home", controller = "Home" });
             });
