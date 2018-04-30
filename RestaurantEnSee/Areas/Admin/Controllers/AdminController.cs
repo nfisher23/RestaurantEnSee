@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantEnSee.Areas.Admin.Models;
+using RestaurantEnSee.Areas.Admin.Models.ManageFoodCategoryModels;
 using RestaurantEnSee.Areas.Home.Models;
 using System;
 using System.Collections.Generic;
@@ -49,10 +50,57 @@ namespace RestaurantEnSee.Areas.Admin.Controllers
             else
                 return View(model);
         }
-        
-        public IActionResult ManageSingleMenu(object fillWithModelSoon)
+
+        public IActionResult ManageSingleMenu(string menuName)
         {
-            throw new NotImplementedException();
+            var menu = menuRepository.GetFullMenuByName(menuName);
+            var model = new ManageSingleMenuViewModel
+            {
+                Menu = menu
+            };
+            return View("ManageSingleMenu", model);
+        }
+
+        public IActionResult ManageActiveMenu()
+        {
+            var active = menuRepository.ActiveMenu;
+            return ManageSingleMenu(active.MenuName);
+        }
+
+        public IActionResult ManageFoodCategory(int foodCategoryId)
+        {
+            var cat = menuRepository.GetFullFoodCategoryById(foodCategoryId);
+            var items = menuRepository.GetAllMenuItems().Where(i => !cat.FoodItems.Contains(i)).ToList();
+            var model = new ManageFoodCategoryModel
+            {
+                Category = cat,
+                MenuItemsNotInCategory = items
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult ChangeFoodCategoryName(ManageFoodCategoryModel model)
+        {
+            menuRepository.ChangeCategoryName(model.Category.FoodCategoryId, model.Category.Title);
+            TempData["message"] = "name changed";
+            return RedirectToAction(nameof(ManageFoodCategory), new { foodCategoryId = model.Category.FoodCategoryId });
+        }
+
+        [HttpPost] 
+        public IActionResult AddMenuItemToCategory(int foodCategoryId, int menuItemId)
+        {
+            menuRepository.AddMenuItemToCategory(foodCategoryId, menuItemId);
+            TempData["message"] = "We successfully added your menu item";
+            return RedirectToAction(nameof(ManageFoodCategory), new { foodCategoryId });
+        }
+
+        [HttpPost]
+        public IActionResult RemoveMenuItemFromCategory(int foodCategoryId, int menuItemId)
+        {
+            menuRepository.RemoveMenuItemFromCategory(foodCategoryId, menuItemId);
+            TempData["message"] = "We successfully added removed your menu item";
+            return RedirectToAction(nameof(ManageFoodCategory), new { foodCategoryId });
         }
 
         private void FillInSelectedMenu(ManageAllMenusViewModel model, 

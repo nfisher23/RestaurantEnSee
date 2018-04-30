@@ -1,0 +1,12 @@
+﻿@model ManageSingleMenuViewModel
+@{ }
+
+<h2>Manage stuff</h2>
+
+@foreach (var what in Model.Menu.Categories)
+{
+    <h1>@what.Title</h1>
+    <a asp-action="ManageFoodCategory" class="btn btn-info"
+       asp-route-foodCategoryId="@what.FoodCategoryId">Manage cat</a>
+
+}

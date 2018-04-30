@@ -13,9 +13,16 @@ namespace RestaurantEnSee.Areas.Home.Models
         IQueryable<MenuItem> MenuItems { get; }
         MenuItem GetMenuItemById(int id);
         void SetActiveMenu(Menu newActiveMenu);
+        Menu ActiveMenu { get; }
+        List<MenuItem> GetAllMenuItems();
 
+        FoodCategory GetFullFoodCategoryById(int id);
+        void ChangeCategoryName(int id, string newName);
+        void AddMenuItemToCategory(int foodCategoryId, int menuItemId);
+        void RemoveMenuItemFromCategory(int foodCategoryId, int menuItemId);
 
         Photo GetPhotoByName(string fullName);
+
 
     }
 }

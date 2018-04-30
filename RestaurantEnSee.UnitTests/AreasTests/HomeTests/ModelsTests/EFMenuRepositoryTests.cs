@@ -120,7 +120,6 @@ namespace RestaurantEnSee.UnitTests.AreasTests.HomeTests.ModelsTests
             {
                 var repoMenuItem = repo.GetMenuItemById(menuItem.MenuItemId);
 
-
                 Assert.IsNotNull(repoMenuItem);
                 Assert.AreEqual(menuItem, repoMenuItem);
             }
@@ -176,6 +175,95 @@ namespace RestaurantEnSee.UnitTests.AreasTests.HomeTests.ModelsTests
             Assert.IsFalse(menus[0].IsActiveMenu);
         }
 
+        [Test]
+        public void GetFoodCategoryById_GetsValidOnes()
+        {
+            var repo = BasicEFMenuRepoFactory();
+            var menu = repo.GetFullMenuByName(repo.Menus.FirstOrDefault().MenuName);
+
+            var categories = menu.Categories.ToList();
+
+            Assert.IsTrue(categories.Count > 3);
+            foreach (var cat in categories)
+            {
+                var repoCat = repo.GetFullFoodCategoryById(cat.FoodCategoryId);
+                Assert.IsNotNull(repoCat);
+                Assert.AreEqual(cat, repoCat);
+            }
+        }
+
+        [Test]
+        public void GetFoodCategoryById_Nonexistent_ReturnsNull()
+        {
+            var repo = BasicEFMenuRepoFactory();
+
+            var categories = SharedDbContext.FoodCategories.ToList();
+            var maxCat = categories.Max(c => c.FoodCategoryId);
+            var minCat = categories.Min(c => c.FoodCategoryId);
+
+            var tooHighId = repo.GetFullFoodCategoryById(maxCat + 1);
+            var tooLowId = repo.GetFullFoodCategoryById(minCat - 1);
+
+            Assert.IsNull(tooHighId);
+            Assert.IsNull(tooLowId);
+        }
+
+        [Test]
+        public void GetFoodCategoryById_IncludesFoodItems()
+        {
+            var repo = BasicEFMenuRepoFactory();
+
+            var categories = SharedDbContext.FoodCategories.ToList();
+
+            Assert.IsTrue(categories.Count > 4);
+            foreach (var cat in categories)
+            {
+                var repoCat = repo.GetFullFoodCategoryById(cat.FoodCategoryId);
+                Assert.IsNotNull(repoCat.FoodItems);
+                Assert.IsTrue(repoCat.FoodItems.Count > 1);
+                foreach (var item in repoCat.FoodItems)
+                {
+                    Assert.IsTrue(item.Title.Length > 1);
+                    Assert.IsTrue(item.Description.Length > 1);
+                }
+            }
+        }
+
+        [Test]
+        public void AddMenuItemToCategory_ItemDNE_AddsItem()
+        {
+            var repo = BasicEFMenuRepoFactory();
+
+            var cat = SharedDbContext.FoodCategories.First();
+            int numOfItemsBeforeAct = cat.FoodItems.Count;
+
+            var itemToAdd = repo.MenuItems.Where(m => !cat.FoodItems.Contains(m)).First();
+
+            repo.AddMenuItemToCategory(cat.FoodCategoryId, itemToAdd.MenuItemId);
+
+            var catFromRepo = repo.GetFullFoodCategoryById(cat.FoodCategoryId);
+            Assert.IsTrue(catFromRepo.FoodItems.Count > numOfItemsBeforeAct);
+
+            Assert.Contains(itemToAdd, catFromRepo.FoodItems);
+        }
+
+        [Test]
+        public void RemoveMenuItemToCategory_ItemExists_RemovesItem()
+        {
+            var repo = BasicEFMenuRepoFactory();
+
+            var cat = SharedDbContext.FoodCategories.First();
+            int numOfItemsBeforeAct = cat.FoodItems.Count;
+
+            var itemToRemove = repo.MenuItems.Where(m => cat.FoodItems.Contains(m)).First();
+
+            repo.RemoveMenuItemFromCategory(cat.FoodCategoryId, itemToRemove.MenuItemId);
+
+            var catFromRepo = repo.GetFullFoodCategoryById(cat.FoodCategoryId);
+            Assert.IsTrue(catFromRepo.FoodItems.Count < numOfItemsBeforeAct);
+
+            Assert.IsFalse(catFromRepo.FoodItems.Contains(itemToRemove));
+        }
 
         private IMenuRepository BasicEFMenuRepoFactory()
         {

@@ -28,12 +28,10 @@
                     </td>
                     <td>
                         <a asp-action="ManageSingleMenu" asp-area="Admin"
+                           asp-route-menuName="@menu.MenuName"
                            asp-controller="Admin" class="btn btn-success">Manage Menu</a>
                     </td>
                 </tr>
-
-
-
             }
         </tbody>
         <tfoot>
