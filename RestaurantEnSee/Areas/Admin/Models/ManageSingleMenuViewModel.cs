@@ -9,5 +9,7 @@ namespace RestaurantEnSee.Areas.Admin.Models
     public class ManageSingleMenuViewModel
     {
         public Menu Menu { get; set; }
+
+        public string CategoryNameToAdd { get; set; }
     }
 }

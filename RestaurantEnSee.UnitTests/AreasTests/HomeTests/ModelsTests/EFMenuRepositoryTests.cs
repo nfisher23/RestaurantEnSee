@@ -265,6 +265,48 @@ namespace RestaurantEnSee.UnitTests.AreasTests.HomeTests.ModelsTests
             Assert.IsFalse(catFromRepo.FoodItems.Contains(itemToRemove));
         }
 
+        [Test]
+        public void CreateNewFoodCategory_AddsToNumOfCategories()
+        {
+            var repo = BasicEFMenuRepoFactory();
+
+            var menu = SharedDbContext.Menus.FirstOrDefault();
+            var numOfCats = SharedDbContext.FoodCategories.Count();
+
+            var id = repo.CreateNewFoodCategory("Some name", menu);
+            Assert.IsTrue(numOfCats < SharedDbContext.FoodCategories.Count());
+        }
+
+        [Test]
+        public void CreateNewFoodCategory_CanBeFoundById()
+        {
+            var repo = BasicEFMenuRepoFactory();
+
+            var menu = SharedDbContext.Menus.FirstOrDefault();
+            string catToAdd = "Some new category";
+
+            var id = repo.CreateNewFoodCategory(catToAdd, menu);
+
+            var catInRepo = repo.GetFullFoodCategoryById(id);
+
+            Assert.IsNotNull(catInRepo);
+            Assert.AreEqual(catToAdd, catInRepo.Title);
+        }
+
+        [Test]
+        public void RemoveFoodCategory_Removes()
+        {
+            var repo = BasicEFMenuRepoFactory();
+
+            var cat = SharedDbContext.FoodCategories.First();
+
+            Assert.IsNotNull(cat);
+            repo.RemoveFoodCategoryById(cat.FoodCategoryId);
+            var shouldBeNull = SharedDbContext.FoodCategories
+                .Where(fc => cat.FoodCategoryId == fc.FoodCategoryId).FirstOrDefault();
+            Assert.IsNull(shouldBeNull);
+        }
+
         private IMenuRepository BasicEFMenuRepoFactory()
         {
             return new EFMenuRepository(SharedDbContext);

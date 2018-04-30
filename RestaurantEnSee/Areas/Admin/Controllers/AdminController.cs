@@ -91,7 +91,8 @@ namespace RestaurantEnSee.Areas.Admin.Controllers
         public IActionResult AddMenuItemToCategory(int foodCategoryId, int menuItemId)
         {
             menuRepository.AddMenuItemToCategory(foodCategoryId, menuItemId);
-            TempData["message"] = "We successfully added your menu item";
+            TempData["message"] = "We successfully added your menu item to this section.\r\n" +
+                "Note that it can only exist in one section at a time";
             return RedirectToAction(nameof(ManageFoodCategory), new { foodCategoryId });
         }
 
@@ -101,6 +102,26 @@ namespace RestaurantEnSee.Areas.Admin.Controllers
             menuRepository.RemoveMenuItemFromCategory(foodCategoryId, menuItemId);
             TempData["message"] = "We successfully added removed your menu item";
             return RedirectToAction(nameof(ManageFoodCategory), new { foodCategoryId });
+        }
+
+        [HttpPost]
+        public IActionResult AddFoodCategory(ManageSingleMenuViewModel model)
+        {
+            if (model.Menu.Categories == null)
+            {
+                model.Menu = menuRepository.GetFullMenuByName(model.Menu.MenuName);
+            }
+            var id = menuRepository.CreateNewFoodCategory(model.CategoryNameToAdd, model.Menu);
+
+            return RedirectToAction(nameof(ManageFoodCategory), new { foodCategoryId = id });
+        }
+
+        [HttpPost]
+        public IActionResult RemoveFoodCategory(int foodCategoryId)
+        {
+            menuRepository.RemoveFoodCategoryById(foodCategoryId);
+            TempData["message"] = "Your category was successfully removed";
+            return RedirectToAction(nameof(ManageAllMenus));
         }
 
         private void FillInSelectedMenu(ManageAllMenusViewModel model, 

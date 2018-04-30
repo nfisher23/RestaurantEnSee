@@ -1,12 +1,29 @@
 ﻿@model ManageSingleMenuViewModel
 @{ }
 
-<h2>Manage stuff</h2>
+<h2>Manage Menu: @Model.Menu.MenuName</h2>
+<hr />
 
-@foreach (var what in Model.Menu.Categories)
+@foreach (var cat in Model.Menu.Categories)
 {
-    <h1>@what.Title</h1>
-    <a asp-action="ManageFoodCategory" class="btn btn-info"
-       asp-route-foodCategoryId="@what.FoodCategoryId">Manage cat</a>
+    <h1>@cat.Title</h1>
 
+    <a asp-action="ManageFoodCategory" class="btn btn-info"
+       asp-route-foodCategoryId="@cat.FoodCategoryId">Manage cat</a>
+
+    <form class="form-group" asp-action="RemoveFoodCategory" method="post">
+        <input type="submit" Admin" asp-controller="Admin"
+           asp-action="RemoveFoodCategory" asp-route-foodCategoryId="@cat.FoodCategoryId"
+           class="btn btn-danger" value="Remove Food Category From Menu">
+    </form>
 }
+
+<br />
+<br />
+<br />
+<form asp-action="AddFoodCategory" method="post">
+    <input type="hidden" asp-for="Menu.MenuName" />
+    <label asp-for="CategoryNameToAdd" />
+    <input type="text" asp-for="CategoryNameToAdd" />
+    <input type="submit" value="Add Category" />
+</form>

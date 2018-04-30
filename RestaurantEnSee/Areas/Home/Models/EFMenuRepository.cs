@@ -55,6 +55,19 @@ namespace RestaurantEnSee.Areas.Home.Models
             }
         }
 
+        public int CreateNewFoodCategory(string categoryName, Menu menuToAssign)
+        {
+            var menu = GetFullMenuByName(menuToAssign.MenuName);
+            menu.Categories.Add(new FoodCategory
+            {
+                Title = categoryName
+            });
+            ApplicationContext.SaveChanges();
+
+            return GetFullMenuByName(menuToAssign.MenuName).Categories
+                .Where(c => c.Title == categoryName).FirstOrDefault().FoodCategoryId;
+        }
+
         public List<MenuItem> GetAllMenuItems()
         {
             return ApplicationContext.MenuItems.Include(m => m.Picture).ToList();
@@ -86,6 +99,13 @@ namespace RestaurantEnSee.Areas.Home.Models
             return ApplicationContext.Photos.Where(p => p.FullTitle == fullName).FirstOrDefault();
         }
 
+        public void RemoveFoodCategoryById(int id)
+        {
+            var cat = ApplicationContext.FoodCategories.Where(fc => fc.FoodCategoryId == id).FirstOrDefault();
+            ApplicationContext.FoodCategories.Remove(cat);
+            ApplicationContext.SaveChanges();
+        }
+
         public void RemoveMenuItemFromCategory(int foodCategoryId, int menuItemId)
         {
             var cat = ApplicationContext.FoodCategories.Where(c => c.FoodCategoryId == foodCategoryId)
@@ -110,5 +130,6 @@ namespace RestaurantEnSee.Areas.Home.Models
             newMenu.IsActiveMenu = true;
             ApplicationContext.SaveChanges();
         }
+
     }
 }
