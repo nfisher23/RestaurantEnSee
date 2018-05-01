@@ -1,0 +1,31 @@
+﻿@model ManageMenuItemModel
+
+@{ }
+
+
+
+<form asp-action="ManageMenuItem" method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="Item.MenuItemId" />
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="Item.Title" class="lead"></label>
+        <input asp-for="Item.Title" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Item.PriceBeforeTax" class="lead"></label>
+        <input asp-for="Item.PriceBeforeTax" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Item.Description" class="lead"></label>
+        <textarea asp-for="Item.Description" class="form-control"
+                  rows="5"></textarea>
+    </div>
+    <div class="form-group">
+        <db-image image="@Model.Item.Picture" />
+    </div>
+    <div class="form-group">
+        <label asp-for="PhotoFile">Upload a different photo</label>
+        <input asp-for="PhotoFile" />
+    </div>
+    <input type="submit" class="btn btn-outline-success" value="Submit Changes" />
+</form>

@@ -67,6 +67,7 @@ namespace RestaurantEnSee.Areas.Admin.Controllers
             return ManageSingleMenu(active.MenuName);
         }
 
+        [HttpGet]
         public IActionResult ManageFoodCategory(int foodCategoryId)
         {
             var cat = menuRepository.GetFullFoodCategoryById(foodCategoryId);
@@ -122,6 +123,35 @@ namespace RestaurantEnSee.Areas.Admin.Controllers
             menuRepository.RemoveFoodCategoryById(foodCategoryId);
             TempData["message"] = "Your category was successfully removed";
             return RedirectToAction(nameof(ManageAllMenus));
+        }
+
+        public IActionResult ManageMenuItem(int menuItemId)
+        {
+            var item = menuRepository.GetMenuItemById(menuItemId);
+            var model = new ManageMenuItemModel
+            {
+                Item = item
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult ManageMenuItem(ManageMenuItemModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                menuRepository.UpdateMenuItem(model.Item);
+                TempData["message"] = "Your changes were saved";
+                return RedirectToAction(nameof(ManageMenuItem), new { menuItemId = model.Item.MenuItemId });
+            }
+            else
+            {
+                if (model.Item.Picture == null)
+                {
+                    model.Item = menuRepository.GetMenuItemById(model.Item.MenuItemId);
+                }
+                return View(model);
+            }
         }
 
         private void FillInSelectedMenu(ManageAllMenusViewModel model, 

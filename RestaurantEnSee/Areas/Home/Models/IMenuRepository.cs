@@ -20,8 +20,10 @@ namespace RestaurantEnSee.Areas.Home.Models
         void RemoveFoodCategoryById(int id);
         int CreateNewFoodCategory(string categoryName, Menu menuToAssign);
         void ChangeCategoryName(int id, string newName);
+
         void AddMenuItemToCategory(int foodCategoryId, int menuItemId);
         void RemoveMenuItemFromCategory(int foodCategoryId, int menuItemId);
+        void UpdateMenuItem(MenuItem item);
 
         Photo GetPhotoByName(string fullName);
 

@@ -12,24 +12,25 @@
     <div class="form-group m-2 d-block">
         <ul class="list-group">
             @for (int i = 0; i < Model.Category.FoodItems.Count; i++)
-    {
-        <li class="list-group-item">
-            <div class="d-block">
-                <label for="@Model.Category.FoodItems[i].Title" class="mt-2 ml-1">
-                    @Model.Category.FoodItems[i].Title
-                </label>
+            {
+                <li class="list-group-item">
+                    <div class="d-block">
+                        <label for="@Model.Category.FoodItems[i].Title" class="mt-2 ml-1">
+                            @Model.Category.FoodItems[i].Title
+                        </label>
 
-                <input type="submit" asp-action="RemoveMenuItemFromCategory"
-                       asp-route-foodCategoryId="@Model.Category.FoodCategoryId"
-                       asp-route-menuItemId="@Model.Category.FoodItems[i].MenuItemId"
-                       class="btn btn-info" value="Remove From Category" />
-            </div>
-        </li>
-}
+                        <input type="submit" asp-action="RemoveMenuItemFromCategory"
+                               asp-route-foodCategoryId="@Model.Category.FoodCategoryId"
+                               asp-route-menuItemId="@Model.Category.FoodItems[i].MenuItemId"
+                               class="btn btn-info" value="Remove From Category" />
+                    </div>
+                </li>
+            }
         </ul>
     </div>
     <hr />
     <br />
+</form>
     
     <h2 class="h3 mt-3 text-center col-md-5">Available Items to Add To Section</h2>
     <ul class="list-group col-md-5">
@@ -43,13 +44,20 @@
                         @Model.MenuItemsNotInCategory[i].Title
                     </label>
                 </span>
-                <input type="submit" asp-action="AddMenuItemToCategory"
-                       asp-route-foodCategoryId="@Model.Category.FoodCategoryId"
-                       asp-route-menuItemId="@Model.MenuItemsNotInCategory[i].MenuItemId"
-                       class="btn btn-info" value="Add Item To Category" />
+                <form class="form-group" method="post">
+                    <input type="submit" asp-action="AddMenuItemToCategory"
+                           asp-route-foodCategoryId="@Model.Category.FoodCategoryId"
+                           asp-route-menuItemId="@Model.MenuItemsNotInCategory[i].MenuItemId"
+                           class="btn btn-info" value="Add Item To Category" />
+                </form>
+
+                <div class="form-group">
+                    <a asp-action="ManageMenuItem"
+                           asp-route-menuItemId="@Model.MenuItemsNotInCategory[i].MenuItemId"
+                           class="btn btn-success">Manage Item</a>
+                </div>
             </div>
         </li>
 }
 
     </ul>
-    </form>

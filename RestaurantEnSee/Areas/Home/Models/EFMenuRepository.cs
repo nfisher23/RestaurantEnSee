@@ -131,5 +131,26 @@ namespace RestaurantEnSee.Areas.Home.Models
             ApplicationContext.SaveChanges();
         }
 
+        public void UpdateMenuItem(MenuItem item)
+        {
+            if (item.MenuItemId > 0)
+            {
+                var dbItem = ApplicationContext.MenuItems
+                    .Where(m => m.MenuItemId == item.MenuItemId).FirstOrDefault();
+
+                if (dbItem != null)
+                {
+                    dbItem.Title = item.Title;
+                    dbItem.Description = item.Description;
+                    dbItem.PriceBeforeTax = item.PriceBeforeTax;
+                    if (item.Picture != null)
+                        dbItem.Picture = item.Picture;
+
+                    ApplicationContext.SaveChanges();
+                    return;
+                }
+
+            }
+        }
     }
 }
