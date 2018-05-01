@@ -149,7 +149,11 @@ namespace RestaurantEnSee.Areas.Home.Models
                     ApplicationContext.SaveChanges();
                     return;
                 }
-
+            }
+            else
+            {
+                ApplicationContext.MenuItems.Add(item);
+                ApplicationContext.SaveChanges();
             }
         }
     }

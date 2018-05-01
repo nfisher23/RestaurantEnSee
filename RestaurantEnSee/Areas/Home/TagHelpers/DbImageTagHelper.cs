@@ -20,9 +20,12 @@ namespace RestaurantEnSee.Areas.Home.TagHelpers
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            output.TagName = "img";
-            output.Attributes.SetAttribute("src", "/dbimgs/" + Image.FullTitle);
-            output.Attributes.SetAttribute("class", "img-thumbnail");
+            if (Image != null)
+            {
+                output.TagName = "img";
+                output.Attributes.SetAttribute("src", "/dbimgs/" + Image.FullTitle);
+                output.Attributes.SetAttribute("class", "img-thumbnail");
+            }
         }
     }
 }

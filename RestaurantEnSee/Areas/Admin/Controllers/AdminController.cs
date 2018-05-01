@@ -154,6 +154,15 @@ namespace RestaurantEnSee.Areas.Admin.Controllers
             }
         }
 
+        public IActionResult CreateMenuItem()
+        {
+            var model = new ManageMenuItemModel
+            {
+                Item = new MenuItem { MenuItemId = 0 }
+            };
+            return View(nameof(ManageMenuItem), model);
+        }
+
         private void FillInSelectedMenu(ManageAllMenusViewModel model, 
             IFormCollection form)
         {
