@@ -33,31 +33,28 @@
 </form>
     
     <h2 class="h3 mt-3 text-center col-md-5">Available Items to Add To Section</h2>
-    <ul class="list-group col-md-5">
+    <div class="row">
         @for (int i = 0; i < Model.MenuItemsNotInCategory.Count; i++)
     {
-        <li class="list-group-item">
-            <div>
+        <div class="col-sm-6 col-md-4 col-lg-3 p-3 border text-center my-3">
+            <span class="p-4 rounded h3 pb-5">
+                <label for="@Model.MenuItemsNotInCategory[i].Title" class="mt-2 ml-1">
+                    @Model.MenuItemsNotInCategory[i].Title
+                </label>
+            </span>
+            <form class="form-group" method="post">
+                <input type="submit" asp-action="AddMenuItemToCategory"
+                        asp-route-foodCategoryId="@Model.Category.FoodCategoryId"
+                        asp-route-menuItemId="@Model.MenuItemsNotInCategory[i].MenuItemId"
+                        class="btn btn-info btn-sm" value="Add Item To Category" />
+            </form>
 
-                <span class="p-4 rounded h3">
-                    <label for="@Model.MenuItemsNotInCategory[i].Title" class="mt-2 ml-1">
-                        @Model.MenuItemsNotInCategory[i].Title
-                    </label>
-                </span>
-                <form class="form-group" method="post">
-                    <input type="submit" asp-action="AddMenuItemToCategory"
-                           asp-route-foodCategoryId="@Model.Category.FoodCategoryId"
-                           asp-route-menuItemId="@Model.MenuItemsNotInCategory[i].MenuItemId"
-                           class="btn btn-info" value="Add Item To Category" />
-                </form>
-
-                <div class="form-group">
-                    <a asp-action="ManageMenuItem"
-                           asp-route-menuItemId="@Model.MenuItemsNotInCategory[i].MenuItemId"
-                           class="btn btn-success">Manage Item</a>
-                </div>
+            <div class="form-group">
+                <a asp-action="ManageMenuItem"
+                        asp-route-menuItemId="@Model.MenuItemsNotInCategory[i].MenuItemId"
+                        class="btn btn-success">Manage Item</a>
             </div>
-        </li>
+         </div>
 }
 
-    </ul>
+    </div>
