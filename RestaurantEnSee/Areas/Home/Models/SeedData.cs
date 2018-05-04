@@ -22,6 +22,12 @@ namespace RestaurantEnSee.Areas.Home.Models
 
                     context.Menus.Add(CreateDevelopmentMenu());
                     context.Menus.Add(CreateDevelopmentMenu(2));
+                    context.AdminEmails.Add(new Admin.Models.Email.EmailConfiguration
+                    {
+                        SmtpPassword = "",
+                        SmtpServer = "",
+                        SmtpUsername = ""
+                    });
 
                     context.SaveChanges();
                 }

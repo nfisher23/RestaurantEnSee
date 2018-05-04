@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantEnSee.Areas.Admin.Models;
+using RestaurantEnSee.Areas.Admin.Models.Email;
 using RestaurantEnSee.Areas.Admin.Models.ManageFoodCategoryModels;
 using RestaurantEnSee.Areas.Home.Models;
 using System;
@@ -14,9 +15,11 @@ namespace RestaurantEnSee.Areas.Admin.Controllers
     public class AdminController : Controller
     {
         IMenuRepository menuRepository;
-        public AdminController(IMenuRepository repo)
+        IOrderCommunicationRepository orderCommunicationRepository;
+        public AdminController(IMenuRepository menuRepo, IOrderCommunicationRepository orderCommRepo)
         {
-            menuRepository = repo;
+            menuRepository = menuRepo;
+            orderCommunicationRepository = orderCommRepo;
         }
 
         public ViewResult Dashboard()
@@ -161,6 +164,19 @@ namespace RestaurantEnSee.Areas.Admin.Controllers
                 Item = new MenuItem { MenuItemId = 0 }
             };
             return View(nameof(ManageMenuItem), model);
+        }
+
+        [HttpGet]
+        public IActionResult ManageDefaultEmail()
+        {
+            var email = orderCommunicationRepository.DefaultEmailConfiguration;
+            return View(email);
+        }
+
+        [HttpPost]
+        public IActionResult ManageDefaultEmail(EmailConfiguration config)
+        {
+            throw new NotImplementedException();
         }
 
         private void FillInSelectedMenu(ManageAllMenusViewModel model, 

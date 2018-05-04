@@ -1,0 +1,22 @@
+﻿@model EmailConfiguration
+@{ }
+
+<form asp-action="ManageDefaultEmail" method="post">
+    <div class="form-group">
+        <label asp-for="SmtpUsername" class="lead"></label>
+        <input asp-for="SmtpUsername" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="SmtpPassword" class="lead"></label>
+        <input asp-for="SmtpPassword" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="SmtpServer" class="lead"></label>
+        <input asp-for="SmtpServer" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="SmtpPort" class="lead"></label>
+        <input asp-for="SmtpPort" class="form-control" />
+    </div>
+
+</form>

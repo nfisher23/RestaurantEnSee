@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using RestaurantEnSee.Areas.Admin.Models;
 using RestaurantEnSee.Areas.Home.Middleware;
 using RestaurantEnSee.Areas.Home.Models;
 using RestaurantEnSee.Areas.Order.Models;
@@ -24,6 +25,7 @@ namespace RestaurantEnSee
             services.AddDbContext<AppDbContext>(opts => opts.UseInMemoryDatabase("Data Source=developmentDatabase.sqlite"));
 
             services.AddTransient<IMenuRepository, EFMenuRepository>();
+            services.AddTransient<IOrderCommunicationRepository, EFOrderCommunicationRepository>();
             services.AddScoped(provider => SessionShoppingCart.GetCart(provider));
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
