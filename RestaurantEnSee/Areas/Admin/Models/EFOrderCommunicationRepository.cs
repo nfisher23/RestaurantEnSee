@@ -24,14 +24,17 @@ namespace RestaurantEnSee.Areas.Admin.Models
             }
             set
             {
-                var current = ApplicationContext.AdminEmails.FirstOrDefault();
-                ApplicationContext.AdminEmails.Remove(current);
+                if (value.EmailConfigurationId == 0)
+                {
+                    var current = ApplicationContext.AdminEmails.FirstOrDefault();
+                    ApplicationContext.AdminEmails.Remove(current);
 
-                // if we're going to persist this information, unfortunately we can't hash
-                // the password, since we need to use it to send any emails. security
-                // will have to be addressed in another way.
-                ApplicationContext.AdminEmails.Add(value);
-                ApplicationContext.SaveChanges();
+                    // if we're going to persist this information, unfortunately we can't hash
+                    // the password, since we need to use it to send any emails. security
+                    // will have to be addressed in another way.
+                    ApplicationContext.AdminEmails.Add(value);
+                    ApplicationContext.SaveChanges();
+                }
             }
         }
     }

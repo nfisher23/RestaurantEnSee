@@ -1,4 +1,5 @@
-﻿using RestaurantEnSee.Areas.Home.Models;
+﻿using RestaurantEnSee.Areas.Admin.Models.Email;
+using RestaurantEnSee.Areas.Home.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -78,7 +79,6 @@ namespace RestaurantEnSee.UnitTests.AreasTests.HomeTests.ModelsTests.seed
             return cats;
         }
 
-
         public static Photo GetDevelopmentPhoto()
         {
             if (defaultSeedPhoto != null &&
@@ -109,6 +109,17 @@ namespace RestaurantEnSee.UnitTests.AreasTests.HomeTests.ModelsTests.seed
         {
             var developmentPhoto = System.IO.File.ReadAllBytes(path);
             return developmentPhoto;
+        }
+
+        public static EmailConfiguration GenerateDefaultEmailConfig()
+        {
+            EmailConfiguration config = new EmailConfiguration
+            {
+                SmtpPassword = "defaultPassword",
+                SmtpServer = "default.server",
+                SmtpUsername = "defaultUsername"
+            };
+            return config;
         }
     }
 }

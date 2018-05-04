@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace RestaurantEnSee.Areas.Admin.Models.Email
 {
     public class EmailConfiguration
     {
-        // We do the constructors like this so EF Core doesn't throw a fit
-        public EmailConfiguration() : this (587)
+        public EmailConfiguration()
         { }
 
         public EmailConfiguration(int smtpPort)
@@ -19,10 +19,9 @@ namespace RestaurantEnSee.Areas.Admin.Models.Email
 
         public string SmtpServer { get; set; }
 
-        public int SmtpPort { get; }
+        public int SmtpPort { get; set; } = 587;
 
         public string SmtpUsername { get; set; }
         public string SmtpPassword { get; set; }
-
     }
 }

@@ -176,7 +176,9 @@ namespace RestaurantEnSee.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult ManageDefaultEmail(EmailConfiguration config)
         {
-            throw new NotImplementedException();
+            orderCommunicationRepository.DefaultEmailConfiguration = config;
+            TempData["message"] = "Successfully Updated Your Email Configuration";
+            return RedirectToAction("ManageDefaultEmail");
         }
 
         private void FillInSelectedMenu(ManageAllMenusViewModel model, 
