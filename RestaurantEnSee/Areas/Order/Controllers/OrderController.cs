@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RestaurantEnSee.Areas.Admin.Models;
+using RestaurantEnSee.Areas.Admin.Models.Email;
 using RestaurantEnSee.Areas.Home.Models;
 using RestaurantEnSee.Areas.Order.Infrastructure;
 using RestaurantEnSee.Areas.Order.Models;
@@ -14,11 +16,17 @@ namespace RestaurantEnSee.Areas.Order.Controllers
     public class OrderController : Controller
     {
         private IMenuRepository menuRepository;
+        private IOrderCommunicationRepository orderCommunicationRepository;
         private ShoppingCart cart;
-        public OrderController(IMenuRepository repo, ShoppingCart cartService)
+        private IEmailService emailService;
+
+        public OrderController(IMenuRepository menuRepo, ShoppingCart cartService,
+            IOrderCommunicationRepository orderCRepo, IEmailService email)
         {
-            menuRepository = repo;
+            menuRepository = menuRepo;
             cart = cartService;
+            orderCommunicationRepository = orderCRepo;
+            emailService = email;
         }
 
         public ViewResult OrderSummary(string returnUrl = "/")
@@ -67,7 +75,65 @@ namespace RestaurantEnSee.Areas.Order.Controllers
         [HttpPost]
         public IActionResult SendOrder(CheckoutViewModel model)
         {
-            throw new NotImplementedException();
+            var msg = GenerateOrderMessage(model);
+            try
+            {
+                emailService.Send(msg);
+            }
+            catch (Exception e)
+            {
+                // write to log, should implement backup plan
+                return RedirectToAction("Mistake"); // whoops
+            }
+            return RedirectToAction("Thanks"); // thank you screen
+        }
+
+        public ViewResult Thanks()
+        {
+            return View();
+        }
+
+        public ViewResult Mistake()
+        {
+            return View();
+        }
+
+
+        private EmailMessage GenerateOrderMessage(CheckoutViewModel model)
+        {
+            var defaultEmail = orderCommunicationRepository.DefaultEmailConfiguration;
+            EmailAddress address = new EmailAddress
+            {
+                Address = defaultEmail.SmtpUsername,
+                Name = "RestaurantEnSee"
+            };
+
+            EmailMessage msg = new EmailMessage
+            {
+                FromAddresses = new List<EmailAddress> { address },
+                ToAddresses = new List<EmailAddress> { address },
+                Subject = "RestaurantEnSee - Order Received",
+                Content = GenerateOrderMessageContent(model)
+            };
+
+            return msg;
+        }
+
+        private string GenerateOrderMessageContent(CheckoutViewModel model)
+        {
+            string msg = "Hello, \r\n\r\nYou have received an online order with the" +
+                $"following details at {DateTime.Now.ToUniversalTime()} (universal time):\r\n\r\n" +
+                $"Name on order: {model?.NameOnOrder}\r\n" +
+                $"Special Instructions: {model.SpecialInstructions}\r\n\r\n";
+
+            foreach (var item in cart.CartItems)
+            {
+                msg += $"Item: {item.MenuItem}, Quantity: {item.Quantity}, Subtotal: {item.SubtotalBeforeTax}";
+            }
+
+            msg += $"\r\n\r\nThe total cost of this order is {cart.TotalBeforeCoupons}";
+
+            return msg;
         }
     }
 }

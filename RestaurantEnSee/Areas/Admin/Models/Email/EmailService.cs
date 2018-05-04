@@ -14,9 +14,9 @@ namespace RestaurantEnSee.Areas.Admin.Models.Email
     {
         private readonly EmailConfiguration _eConfig;
 
-        public EmailService(EmailConfiguration config)
+        public EmailService(IOrderCommunicationRepository repo)
         {
-            _eConfig = config;
+            _eConfig = repo.DefaultEmailConfiguration;
         }
 
         public void Send(EmailMessage msg)
