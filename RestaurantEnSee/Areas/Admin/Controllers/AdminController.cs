@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantEnSee.Areas.Admin.Models;
 using RestaurantEnSee.Areas.Admin.Models.Email;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 namespace RestaurantEnSee.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
     public class AdminController : Controller
     {
         IMenuRepository menuRepository;
@@ -39,6 +41,7 @@ namespace RestaurantEnSee.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult ManageAllMenus(ManageAllMenusViewModel model)
         {
             IFormCollection form = this.Request.Form;
@@ -84,6 +87,7 @@ namespace RestaurantEnSee.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult ChangeFoodCategoryName(ManageFoodCategoryModel model)
         {
             menuRepository.ChangeCategoryName(model.Category.FoodCategoryId, model.Category.Title);
@@ -92,6 +96,7 @@ namespace RestaurantEnSee.Areas.Admin.Controllers
         }
 
         [HttpPost] 
+        [ValidateAntiForgeryToken]
         public IActionResult AddMenuItemToCategory(int foodCategoryId, int menuItemId)
         {
             menuRepository.AddMenuItemToCategory(foodCategoryId, menuItemId);
@@ -101,6 +106,7 @@ namespace RestaurantEnSee.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult RemoveMenuItemFromCategory(int foodCategoryId, int menuItemId)
         {
             menuRepository.RemoveMenuItemFromCategory(foodCategoryId, menuItemId);
@@ -109,6 +115,7 @@ namespace RestaurantEnSee.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult AddFoodCategory(ManageSingleMenuViewModel model)
         {
             if (model.Menu.Categories == null)
@@ -121,6 +128,7 @@ namespace RestaurantEnSee.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult RemoveFoodCategory(int foodCategoryId)
         {
             menuRepository.RemoveFoodCategoryById(foodCategoryId);
@@ -139,6 +147,7 @@ namespace RestaurantEnSee.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult ManageMenuItem(ManageMenuItemModel model)
         {
             if (ModelState.IsValid)
@@ -174,6 +183,7 @@ namespace RestaurantEnSee.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult ManageDefaultEmail(EmailConfiguration config)
         {
             orderCommunicationRepository.DefaultEmailConfiguration = config;

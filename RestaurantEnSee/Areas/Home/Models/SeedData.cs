@@ -6,6 +6,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using RestaurantEnSee.Areas.Home.Models;
 using System.IO;
+using RestaurantEnSee.Areas.Account.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace RestaurantEnSee.Areas.Home.Models
 {
@@ -45,6 +47,34 @@ namespace RestaurantEnSee.Areas.Home.Models
             };
 
             return m;
+        }
+
+
+
+        public static string DefaultUsername = "RESEnSeeUser";
+        public static string DefaultPassword = "RESDefaultPassword1!";
+
+        public static async Task EnsureIdentityPopulated(IServiceProvider provider,
+            IHostingEnvironment environment)
+        {
+            using (var context = provider.GetRequiredService<AppIdentityDbContext>())
+            {
+                var _userManager = provider.GetRequiredService<UserManager<AppUser>>();
+
+                if (!_userManager.Users.Any())
+                {
+                    AppUser user = new AppUser
+                    {
+                        UserName = DefaultUsername
+                    };
+                    await _userManager.CreateAsync(user, DefaultPassword);
+                }
+            }
+        }
+
+        public static bool IsFirstSignIn(string username, string password)
+        {
+            return (username == DefaultUsername && password == DefaultPassword);
         }
 
         private static List<FoodCategory> GenerateDevelopmentCategories()
