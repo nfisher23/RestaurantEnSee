@@ -18,8 +18,7 @@ namespace RestaurantEnSee
             var host = BuildWebHost(args);
 
             IHostingEnvironment env = (IHostingEnvironment)host.Services.GetService(typeof(IHostingEnvironment));
-            SeedData.EnsureDevelopmentDbPopulated(host.Services, env);
-            SeedData.EnsureIdentityPopulated(host.Services, env).Wait();
+            SeedData.EnsureDbPopulated(host.Services, env);
 
             host.Run();
         }

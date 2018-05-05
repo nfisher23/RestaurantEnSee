@@ -13,6 +13,20 @@ namespace RestaurantEnSee.Areas.Home.Models
 {
     public static class SeedData
     {
+        public static void EnsureDbPopulated(IServiceProvider provider, 
+            IHostingEnvironment environment)
+        {
+            if (environment.IsDevelopment())
+            {
+                EnsureDevelopmentDbPopulated(provider, environment);
+            }
+            else if (environment.IsProduction())
+            {
+                EnsureProductionDbPopulated(provider, environment);
+            }
+            EnsureIdentityPopulated(provider, environment).Wait();
+        }
+
         public static void EnsureDevelopmentDbPopulated(IServiceProvider provider,
             IHostingEnvironment environment)
         {
@@ -36,6 +50,34 @@ namespace RestaurantEnSee.Areas.Home.Models
             }
         }
 
+        public static void EnsureProductionDbPopulated(IServiceProvider provider,
+            IHostingEnvironment environment)
+        {
+            if (environment.IsProduction())
+            {
+                using (AppDbContext context = provider.GetRequiredService<AppDbContext>())
+                {
+                    context.Database.EnsureCreated();
+
+                    if (context.Menus.Count() == 0)
+                    {
+                        context.Menus.Add(CreateProductionSeedMenu());
+                    }
+                    if (context.AdminEmails.Count() == 0)
+                    {
+                        context.AdminEmails.Add(new Admin.Models.Email.EmailConfiguration
+                        {
+                            SmtpPassword = "",
+                            SmtpServer = "",
+                            SmtpUsername = ""
+                        });
+                    }
+
+                    context.SaveChanges();
+                }
+            }
+        }
+
 
         public static Menu CreateDevelopmentMenu(int num = 1)
         {
@@ -46,6 +88,31 @@ namespace RestaurantEnSee.Areas.Home.Models
                 IsActiveMenu = num == 1 ? true : false
             };
 
+            return m;
+        }
+
+        public static Menu CreateProductionSeedMenu()
+        {
+            Menu m = new Menu
+            {
+                Categories = new List<FoodCategory>
+                {
+                    new FoodCategory
+                    {
+                        FoodItems = new List<MenuItem>
+                        {
+                            new MenuItem
+                            {
+                                Description = "Your first Menu Item",
+                                Picture = GetDevelopmentPhoto(),
+                                PriceBeforeTax = 9.99M,
+                                Title = "Menu Item"
+                            }
+                        },
+                        Title = "Your First Category"
+                    }
+                }
+            };
             return m;
         }
 
