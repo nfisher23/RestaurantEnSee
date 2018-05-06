@@ -50,8 +50,8 @@ namespace RestaurantEnSee
 
         public void ConfigureProductionServices(IServiceCollection services)
         {
-            services.AddDbContext<AppDbContext>(opts => opts.UseInMemoryDatabase("Data Source=AppDb.sqlite"));
-            services.AddDbContext<AppIdentityDbContext>(opts => opts.UseInMemoryDatabase("Data Source=AppIdentity.sqlite"));
+            services.AddDbContext<AppDbContext>(opts => opts.UseSqlite("Data Source=AppDb.sqlite"));
+            services.AddDbContext<AppIdentityDbContext>(opts => opts.UseSqlite("Data Source=AppIdentity.sqlite"));
 
             services.AddTransient<IMenuRepository, EFMenuRepository>();
             services.AddTransient<IOrderCommunicationRepository, EFOrderCommunicationRepository>();
