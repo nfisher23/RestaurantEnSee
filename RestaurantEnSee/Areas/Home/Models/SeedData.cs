@@ -111,7 +111,9 @@ namespace RestaurantEnSee.Areas.Home.Models
                         },
                         Title = "Your First Category"
                     }
-                }
+                },
+                MenuName = "Default Menu 1",
+                IsActiveMenu = true
             };
             return m;
         }
@@ -126,6 +128,7 @@ namespace RestaurantEnSee.Areas.Home.Models
         {
             using (var context = provider.GetRequiredService<AppIdentityDbContext>())
             {
+                context.Database.EnsureCreated();
                 var _userManager = provider.GetRequiredService<UserManager<AppUser>>();
 
                 if (!_userManager.Users.Any())

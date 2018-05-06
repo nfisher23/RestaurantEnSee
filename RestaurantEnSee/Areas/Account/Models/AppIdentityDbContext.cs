@@ -12,7 +12,7 @@ namespace RestaurantEnSee.Areas.Account.Models
         public AppIdentityDbContext(DbContextOptions<AppIdentityDbContext> opts) 
             : base(opts)
         {
-
+            
         }
     }
 }
