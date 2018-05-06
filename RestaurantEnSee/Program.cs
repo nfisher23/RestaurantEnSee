@@ -26,6 +26,7 @@ namespace RestaurantEnSee
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
+                .UseUrls("http://localhost:2300")
                 .UseDefaultServiceProvider(opts => opts.ValidateScopes = false)
                 .Build();
     }
